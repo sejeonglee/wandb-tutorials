@@ -143,6 +143,13 @@ if __name__ == "__main__":
         test(test_dataloader, nn_model, ce_loss)
     print("Done!")
 
+    torch.save(nn_model.state_dict(), "./model.pth")
+    wandb.save("./model.pth")
+
+    artifact = wandb.Artifact("fashion_mnist", type="model")
+    artifact.add_file("./model.pth")
+    wandb.log_artifact(artifact)
+
     eval(test_data, nn_model)
 
     wandb.finish()
